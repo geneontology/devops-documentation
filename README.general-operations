@@ -1,17 +1,27 @@
-# go-fastapi Deployment
+# Service operations
 
-This guide describes the deployment of the `go-fastapi` stack to AWS using Terraform, ansible, and the "go-deploy" Python library. 
+## General concepts
 
-## Prerequisites: 
-**NOTE**: we have a docker-based environment with all these tools installed. 
+TODO
 
-#### software:
+## What's a workspace?
 
-- go-fastapi checkout 
-- Terraform: v1.1.4
-- Ansible: 2.10.7
-- aws cli
-- go-deploy; multple install methods: poetry `poetry install go-deploy==0.4.2` (requires python >=3.8), can also be installed incidentally from go-fastapi repo with `poetry install`
+## What workspace should I "connect" to?
+
+## How to join a workspace and inspect it?
+
+## Basic workspace operations
+
+### list
+
+### destroy
+
+### init new 
+
+### etc
+
+
+## Files you see during deployment (may move to specific docs)
 
 #### configuration files:
 
@@ -30,21 +40,17 @@ This guide describes the deployment of the `go-fastapi` stack to AWS using Terra
   - docker-production-compose.yaml
   - various configuration files
 
-#### DNS: 
+#### DNS and Cloudflare: 
 
 DNS records are used for `go-fastapi`; they are typically the "production" record and the dev/testing record. Yhe go-deploy tool allows for creating DNS records (type A) that would be populated by the public ip addresses of the aws instance. If you don't use this option, you would need to point this record to the elastic IP of the VM. For testing purposes, you can use: `aes-test-go-fastapi.geneontology.org` or any other record that you create in Route 53.
 
 **NOTE**: If using cloudflare, you would need to point the cloudflare dns record to the elastic IP.
 
-#### SSH Keys:
-
-For testing purposes you can you your own ssh keys. But for production please ask for the go ssh keys.
-/tmp/go-ssh.pub
-/tmp/go-ssh
-
 ## Configuring and deploying EC2 _instances_: 
 
 This is all completed in a dockerized development environment (all commands take place inside the docker container).
+
+TODO: Move to setup
 
 1. Spin up the provided dockerized development environment:
 
@@ -52,17 +58,6 @@ This is all completed in a dockerized development environment (all commands take
 docker run --name go-dev -it geneontology/go-devops-base:tools-jammy-0.4.1  /bin/bash
 git clone https://github.com/geneontology/go-fastapi.git
 cd go-fastapi/provision
-```
-
-2. Prepare AWS credentials:
-
-The credentials are used by Terraform to provision the AWS instance and by the provisioned instance to access the certificate store and the s3 buckets used to store Apache logs.  Copy and modify the aws credential file to the default location `/tmp/go-aws-credentials` 
-
-**NOTE**: you will need to supply an `aws_access_key_id` and `aws_secret_access_key`. These will be marked with `REPLACE_ME` in the `go-aws-credentials.sample` file.
-
-```bash
-cp production/go-aws-credentials.sample /tmp/go-aws-credentials
-emacs /tmp/go-aws-credentials  # update the `aws_access_key_id` and `aws_secret_access_key`
 ```
 
 3. Prepare and initialize the S3 Terraform backend:
@@ -168,17 +163,8 @@ go-deploy --workspace REPLACE_ME_WITH_TERRAFORM_BACKEND --working-directory aws 
 ```
 
 
-## Testing deployment:
 
-1. Access go-fastapi from the command line by ssh'ing into the newly provisioned EC2 instance (this too is run via the dockerized dev environment):
-ssh -i /tmp/go-ssh ubuntu@IP_ADDRESS
-
-2. Access go-fastapi from a browser:
-
-We use health checks in the `docker-compose` file.  
-Use go-fastapi DNS name. http://{go-fastapi_host}/docs
-
-3. Debugging:
+3. General debugging:
 
 * Use -dry-run and copy and paste the command and execute it manually
 * ssh to the machine; the username is ubuntu. Try using DNS names to make sure they are fine.
@@ -202,7 +188,7 @@ logrotate -v -f /etc/logrotate.d/apache2 # Use -f option to force log rotation.
 cat /tmp/logrotate-to-s3.log # make sure uploading to s3 was fine
 ```
 
-5. Testing Health Check:
+5. Testing Health Check: ???
 
 ```sh
 docker inspect --format "{{json .State.Health }}" go-fastapi
