@@ -1,19 +1,39 @@
 # Setup
 
-## Prerequisites: 
-**NOTE**: we have a docker-based environment with all these tools installed. 
+## Environment 
 
-#### software:
+### Docker (recommended)
 
-- go-fastapi checkout 
+All basic operations are designed and tested in the GO devops docker environment (i.e. all commands take place inside the docker container).
+This is the recommended way to do devops.
+To pin up the provided dockerized development environment:
+
+```
+docker run --name go-dev -it geneontology/go-devops-base:tools-jammy-0.4.1  /bin/bash
+```
+
+### Manual (good luck!)
+
+#### Software
+
 - Terraform: v1.1.4
 - Ansible: 2.10.7
 - aws cli
-- go-deploy; multple install methods: poetry `poetry install go-deploy==0.4.2` (requires python >=3.8), can also be installed incidentally from go-fastapi repo with `poetry install`
+- go-deploy (multple install methods: poetry `poetry install go-deploy==0.4.2` (requires python >=3.8), can also be installed incidentally from go-fastapi repo with `poetry install`)
 
-#### DNS / Cloudflare: 
+## DNS / Cloudflare: 
 
-DNS records are used for `go-fastapi`; they are typically the "production" record and the dev/testing record. Yhe go-deploy tool allows for creating DNS records (type A) that would be populated by the public ip addresses of the aws instance. If you don't use this option, you would need to point this record to the elastic IP of the VM. For testing purposes, you can use: `aes-test-go-fastapi.geneontology.org` or any other record that you create in Route 53.
+Two DNS records are used for most services; they are typically the "production" record and the dev/testing record.
+
+Pattern; where SERVICE is a used service CNAME/subdomain, like “api”, “rdf”, “amigo”.
+go-workspace-SERVICE
+SERVICE-a
+SERVICE-b
+one of these will be prod; the other will be either the fallback or the next; if for some reason we need both fallback and next, SERVICE-c could be used, but would indicate that we’re climbing over ourselves
+SERVICE-dev-DEVNAME(-ISODATE/METADATA)
+
+
+The go-deploy tool allows for creating DNS records (type A) that would be populated by the public ip addresses of the aws instance. If you don't use this option, you would need to point this record to the elastic IP of the VM. For testing purposes, you can use: `aes-test-go-fastapi.geneontology.org` or any other record that you create in Route 53.
 
 **NOTE**: If using cloudflare, you would need to point the cloudflare dns record to the elastic IP.
 
