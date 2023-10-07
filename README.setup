@@ -125,3 +125,7 @@ To test, let's list the workspaces found in this state store:
 ```
 go-deploy --working-directory aws -list-workspaces -verbose 
 ```
+
+## Next steps
+
+Now that you're setup, you can look at basic Terraform operations at README.services.
