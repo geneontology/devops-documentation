@@ -115,12 +115,13 @@ You would then replace the REPLACE_ME_TERRAFORM_S3_STATE_STORE with the appropri
 ```
 emacs ./aws/backend.tf
 ```
+Finally, let's hookup terraform to the S3 bucket state store within the ./aws directory (the `--working-directory` variable):
 
-
-
-# initialize (if it doesn't work, we fail):
+```
 go-deploy -init --working-directory aws -verbose
+```
 
-# Use these commands to figure out the name of an existing workspace if any. The name should have a pattern `production-YYYY-MM-DD`
+To test, let's list the workspaces found in this state store:
+```
 go-deploy --working-directory aws -list-workspaces -verbose 
 ```
