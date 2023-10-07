@@ -129,3 +129,11 @@ go-deploy --working-directory aws -list-workspaces -verbose
 ## Next steps
 
 Now that you're setup, you can look at basic Terraform operations at README.services.
+
+## Troubleshooting
+
+Unsure why, but got errors when doing "real" operations until I did:
+
+```
+export AWS_REGION=us-west-1
+```
