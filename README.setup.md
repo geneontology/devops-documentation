@@ -137,5 +137,5 @@ Now that you're setup, you can look at basic Terraform operations at README.serv
 Unsure why, but got errors when doing "real" operations until I did:
 
 ```
-export AWS_REGION=us-west-1
+export AWS_REGION=us-east-1
 ```
