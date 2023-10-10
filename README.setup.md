@@ -2,6 +2,8 @@
 
 ## Environment 
 
+Choose _one_ of either https://github.com/geneontology/devops-documentation/blob/main/README.setup.md#docker-recommended (recommended) or https://github.com/geneontology/devops-documentation/blob/main/README.setup.md#manual-good-luck (if you insist).
+
 ### Docker (recommended)
 
 All basic operations are designed and tested in the GO devops docker environment (i.e. all commands take place inside the docker container).
