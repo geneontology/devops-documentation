@@ -1,10 +1,17 @@
 # Service operations
 
+This document assumes that you have a properly setup environment and are familiar with the context from [README.setup.md](README.setup.md).
+As well, we assume that you're already connected to the workspace of your choice.
+
 ## General concepts
+
+### What's an "S3 state backend"?
 
 TODO
 
-## What's a workspace?
+### What's a workspace?
+
+TODO
 
 ## What workspace should I "connect" to?
 
