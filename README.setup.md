@@ -11,6 +11,7 @@ This is the recommended way to do devops.
 To pin up the provided dockerized development environment:
 
 ```
+docker rm go-dev
 docker run --name go-dev -it geneontology/go-devops-base:tools-jammy-0.4.1  /bin/bash
 ```
 
