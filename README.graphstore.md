@@ -10,12 +10,11 @@ docker run --name go-dev -it geneontology/go-devops-base:tools-jammy-0.4.2  /bin
 cd /tmp
 ```
 
-## Setup backend and instance
+## Setup AWS backend
 
 Get local repo.
 
 ```
-cd /tmp
 git clone https://github.com/geneontology/go-graphstore.git
 cd go-graphstore/provision
 ```
@@ -37,11 +36,11 @@ go-deploy -init --working-directory aws -verbose
 
 Test with:
 
-```
-go-deploy --working-directory aws -list-workspaces -verbose
-```
+See https://github.com/geneontology/devops-documentation/blob/main/README.graphstore.md#test .
 
-_At this point, we are now setup to perform basic listing and destructive operations._
+_At this point, we are now setup to perform basic listing and destructive operations._ See: https://github.com/geneontology/devops-documentation/blob/main/README.graphstore.md#destroy-previous-instances .
+
+## Setup instance
 
 ### config-instance.yaml
 
@@ -210,7 +209,11 @@ go-deploy --workspace internal-2024-04-24 --working-directory aws -verbose --con
 
 ## Test
 
-Test as needed
+This tests that the backend is communicating with S3
+
+```
+go-deploy --working-directory aws -list-workspaces -verbose
+```
 
 ## Destroy previous instances
 
