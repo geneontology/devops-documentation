@@ -45,6 +45,8 @@ Test with:
 go-deploy --working-directory aws -list-workspaces -verbose
 ```
 
+_At this point, we are now setup to perform basic listing and destructive operations._
+
 ### config-instance.yaml
 
 Edit instance config.
