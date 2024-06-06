@@ -14,13 +14,35 @@ docker run --name go-dev -it geneontology/go-devops-base:tools-jammy-0.4.2  /bin
 cd /tmp
 ```
 
-## Setup instance
+## Setup backend and instance
 
 Get local repo.
 
 ```
+cd /tmp
 git clone https://github.com/geneontology/go-graphstore.git
 cd go-workspace-graphstore
+```
+
+### Terraform backend
+
+```
+cp ./production/backend.tf.sample ./aws/backend.tf
+emacs ./aws/backend.tf
+```
+
+- `bucket  = "REPLACE_ME_TERRAFORM_S3_STATE_STORE"` should be "go-workspace-graphstore"
+
+Setup AWS backend with:
+
+```
+go-deploy -init --working-directory aws -verbose
+```
+
+Test with:
+
+```
+go-deploy --working-directory aws -list-workspaces -verbose
 ```
 
 ### config-instance.yaml
