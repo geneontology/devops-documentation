@@ -2,11 +2,7 @@
 
 ## Setup environment
 
-Using `go-workspace-graphstore` as the S3 bucket in `backend.tf`, setup as:
-
-https://github.com/geneontology/devops-documentation/blob/main/README.setup.md
-
-Then:
+Some of this is a repeat of the info found in https://github.com/geneontology/devops-documentation/blob/main/README.setup.md, but with an eye to working from `go-graphstore`. Following this doc from the start is recommended if you are unfamiliar with the process.
 
 ```
 docker
