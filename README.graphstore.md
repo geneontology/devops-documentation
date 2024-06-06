@@ -21,7 +21,7 @@ Get local repo.
 ```
 cd /tmp
 git clone https://github.com/geneontology/go-graphstore.git
-cd go-graphstore
+cd go-graphstore/provision
 ```
 
 ### Terraform backend
