@@ -157,7 +157,7 @@ emacs ./vars.yaml
 - `S3_BUCKET: REPLACE_ME` should be "go-service-logs-graphstore-production".
 - `remote_journal_gzip: http://current.geneontology.org/products/blazegraph/blazegraph-internal.jnl.gz` should be "http://current.geneontology.org/products/blazegraph/blazegraph-production.jnl.gz"
 - `GRAPHSTORE_SERVER_NAME: graphstore.example.com` should be "rdf.geneontology.org".
-- `S3_SSL_CERTS_LOCATION` should be "s3://go-service-lockbox/geneontology.org.tar.gz".
+- `GRAPHSTORE_SERVER_ALIAS: REPLACE_ME` should be "graphstore-production-2024-04-24.geneontology.org".
 
 ### Internal variables
 
@@ -171,7 +171,6 @@ emacs ./config-stack.yaml
 - `remote_gzip_journal` should be "http://current.geneontology.org/products/blazegraph/blazegraph-internal.jnl.gz"
 - `GRAPHSTORE_SERVER_NAME: REPLACE_ME` should be "rdf-internal.berkeleybop.io".
 - `GRAPHSTORE_SERVER_ALIAS: REPLACE_ME` should be "graphstore-internal-2024-04-24.berkeleybop.io".
-- `S3_SSL_CERTS_LOCATION` should be "s3://go-service-lockbox/berkeleybop.io.tar.gz".
 
 Next, get the ssl certs setup:
 
