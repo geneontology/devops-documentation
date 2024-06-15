@@ -67,6 +67,8 @@ emacs config-instance.yaml
 
 Commands to deploy instance.
 
+Replace `YYYY-MM-DD` appropriately.
+
 #### For production
 
 ```
@@ -85,8 +87,10 @@ Assume that we want to examine the "hardware" and settings around the workspace 
 
 Getting in (from outside the docker images):
 
+For example:
+
 ```
-ssh -i /home/sjcarbon/local/share/secrets/go/ssh-keys/go-ssh ubuntu@production-2024-04-24.geneontology.org
+ssh -i /home/sjcarbon/local/share/secrets/go/ssh-keys/go-ssh ubuntu@go-graphstore-production-2024-04-24.geneontology.org
 ```
 
 Workspace placement:
