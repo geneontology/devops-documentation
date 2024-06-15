@@ -90,7 +90,7 @@ Getting in (from outside the docker images):
 For example:
 
 ```
-ssh -i /home/sjcarbon/local/share/secrets/go/ssh-keys/go-ssh ubuntu@go-graphstore-production-2024-04-24.geneontology.org
+ssh -i /home/sjcarbon/local/share/secrets/go/ssh-keys/go-ssh ubuntu@graphstore-production-2024-04-24.geneontology.org
 ```
 
 Workspace placement:
