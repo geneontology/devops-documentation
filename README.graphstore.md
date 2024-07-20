@@ -9,7 +9,7 @@ https://github.com/geneontology/devops-documentation/blob/main/README.setup.md
 Then:
 
 ```
-docker
+docker rm go-dev
 docker run --name go-dev -it geneontology/go-devops-base:tools-jammy-0.4.2  /bin/bash
 cd /tmp
 ```
