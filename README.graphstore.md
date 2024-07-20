@@ -2,11 +2,7 @@
 
 ## Setup environment
 
-Using `go-workspace-graphstore` as the S3 bucket in `backend.tf`, setup as:
-
-https://github.com/geneontology/devops-documentation/blob/main/README.setup.md
-
-Then:
+Some of this is a repeat of the info found in https://github.com/geneontology/devops-documentation/blob/main/README.setup.md, but with an eye to working from `go-graphstore`. Following this doc from the start is recommended if you are unfamiliar with the process.
 
 ```
 docker rm go-dev
@@ -14,14 +10,37 @@ docker run --name go-dev -it geneontology/go-devops-base:tools-jammy-0.4.2  /bin
 cd /tmp
 ```
 
-## Setup instance
+## Setup AWS backend
 
 Get local repo.
 
 ```
 git clone https://github.com/geneontology/go-graphstore.git
-cd go-workspace-graphstore
+cd go-graphstore/provision
 ```
+
+### Terraform backend
+
+```
+cp ./production/backend.tf.sample ./aws/backend.tf
+emacs ./aws/backend.tf
+```
+
+- `bucket  = "REPLACE_ME_TERRAFORM_S3_STATE_STORE"` should be "go-workspace-graphstore"
+
+Setup AWS backend with:
+
+```
+go-deploy -init --working-directory aws -verbose
+```
+
+Test with:
+
+See https://github.com/geneontology/devops-documentation/blob/main/README.graphstore.md#test .
+
+_At this point, we are now setup to perform basic listing and destructive operations._ See: https://github.com/geneontology/devops-documentation/blob/main/README.graphstore.md#destroy-previous-instances .
+
+## Setup instance
 
 ### config-instance.yaml
 
@@ -48,6 +67,8 @@ emacs config-instance.yaml
 
 Commands to deploy instance.
 
+Replace `YYYY-MM-DD` appropriately.
+
 #### For production
 
 ```
@@ -66,8 +87,10 @@ Assume that we want to examine the "hardware" and settings around the workspace 
 
 Getting in (from outside the docker images):
 
+For example:
+
 ```
-ssh -i /home/sjcarbon/local/share/secrets/go/ssh-keys/go-ssh ubuntu@production-2024-04-24.geneontology.org
+ssh -i /home/sjcarbon/local/share/secrets/go/ssh-keys/go-ssh ubuntu@graphstore-production-2024-04-24.geneontology.org
 ```
 
 Workspace placement:
@@ -134,7 +157,7 @@ emacs ./vars.yaml
 - `S3_BUCKET: REPLACE_ME` should be "go-service-logs-graphstore-production".
 - `remote_journal_gzip: http://current.geneontology.org/products/blazegraph/blazegraph-internal.jnl.gz` should be "http://current.geneontology.org/products/blazegraph/blazegraph-production.jnl.gz"
 - `GRAPHSTORE_SERVER_NAME: graphstore.example.com` should be "rdf.geneontology.org".
-- `S3_SSL_CERTS_LOCATION` should be "s3://go-service-lockbox/geneontology.org.tar.gz".
+- `GRAPHSTORE_SERVER_ALIAS: REPLACE_ME` should be "graphstore-production-2024-04-24.geneontology.org".
 
 ### Internal variables
 
@@ -148,7 +171,6 @@ emacs ./config-stack.yaml
 - `remote_gzip_journal` should be "http://current.geneontology.org/products/blazegraph/blazegraph-internal.jnl.gz"
 - `GRAPHSTORE_SERVER_NAME: REPLACE_ME` should be "rdf-internal.berkeleybop.io".
 - `GRAPHSTORE_SERVER_ALIAS: REPLACE_ME` should be "graphstore-internal-2024-04-24.berkeleybop.io".
-- `S3_SSL_CERTS_LOCATION` should be "s3://go-service-lockbox/berkeleybop.io.tar.gz".
 
 Next, get the ssl certs setup:
 
@@ -190,7 +212,11 @@ go-deploy --workspace internal-2024-04-24 --working-directory aws -verbose --con
 
 ## Test
 
-Test as needed
+This tests that the backend is communicating with S3
+
+```
+go-deploy --working-directory aws -list-workspaces -verbose
+```
 
 ## Destroy previous instances
 

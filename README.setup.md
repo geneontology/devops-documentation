@@ -60,10 +60,15 @@ ahead and:
 emacs /tmp/go-aws-credentials
 ```
 
-You can test these with:
+Finalize getting these into the environment with:
 
 ```
 export AWS_SHARED_CREDENTIALS_FILE=/tmp/go-aws-credentials
+```
+
+You can test these with:
+
+```
 aws s3 ls
 ```
 
