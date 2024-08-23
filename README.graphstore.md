@@ -2,13 +2,15 @@
 
 ## Setup environment
 
-Some of this is a repeat of the info found in https://github.com/geneontology/devops-documentation/blob/main/README.setup.md, but with an eye to working from `go-graphstore`. Following this doc from the start is recommended if you are unfamiliar with the process.
+First, setup the devops docker image:
 
 ```
 docker rm go-dev
 docker run --name go-dev -it geneontology/go-devops-base:tools-jammy-0.4.2  /bin/bash
 cd /tmp
 ```
+
+Next, do the https://github.com/geneontology/devops-documentation/blob/main/README.setup.md#credentials section of the general setup document.
 
 ## Setup AWS backend
 
