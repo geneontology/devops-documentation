@@ -1,6 +1,7 @@
 # devops-documentation
 
 General and specific documentation for geneontology DevOps.
+Intent is to use Software as Infastructure via Terraform and Ansible. This requires crediantials and permission to access and provision resources.   
 
 ## README.setup
 

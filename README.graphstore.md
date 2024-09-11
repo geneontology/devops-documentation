@@ -4,6 +4,11 @@
 
 Some of this is a repeat of the info found in https://github.com/geneontology/devops-documentation/blob/main/README.setup.md, but with an eye to working from `go-graphstore`. Following this doc from the start is recommended if you are unfamiliar with the process.
 
+Everything is going to be run from a docker image.  This process uses prebuilt image 'geneontology/go-devops-base'. This can be inspected via
+
+```docker inspect geneontology/go-devops-base:tools-jammy-0.4.2
+```
+
 ```
 docker rm go-dev
 docker run --name go-dev -it geneontology/go-devops-base:tools-jammy-0.4.2  /bin/bash
@@ -19,6 +24,37 @@ git clone https://github.com/geneontology/go-graphstore.git
 cd go-graphstore/provision
 ```
 
+## Setup AWS credentials and test access
+```
+emacs /tmp/go-aws-credentials
+```
+Template of file is
+```
+[default]
+aws_access_key_id = REPLACE_ME_1
+aws_secret_access_key = REPLACE_ME_2
+```
+Replace REPLACE_ME_1 and REPLACE_ME_2 with your access and keys
+
+Set as environment variables
+```
+export AWS_SHARED_CREDENTIALS_FILE=/tmp/go-aws-credentials
+```
+
+Test by listing s3 buckets
+```
+aws s3 ls
+```
+
+Copy key files and set privileges
+```
+docker cp \your\key\go-ssh.pub go-dev:/tmp
+docker cp \your\key\go-ssh go-dev:/tmp
+cd /tmp/
+chmod 600 go-ssh*
+cd go-graphstore/provision
+```
+
 ### Terraform backend
 
 ```
@@ -26,13 +62,15 @@ cp ./production/backend.tf.sample ./aws/backend.tf
 emacs ./aws/backend.tf
 ```
 
-- `bucket  = "REPLACE_ME_TERRAFORM_S3_STATE_STORE"` should be "go-workspace-graphstore"
+- `bucket  = "REPLACE_ME"` should be "go-workspace-graphstore"
 
 Setup AWS backend with:
 
 ```
 go-deploy -init --working-directory aws -verbose
 ```
+
+Scripts are in https://github.com/geneontology/devops-deployment-scripts
 
 Test with:
 
@@ -41,6 +79,7 @@ See https://github.com/geneontology/devops-documentation/blob/main/README.graphs
 _At this point, we are now setup to perform basic listing and destructive operations._ See: https://github.com/geneontology/devops-documentation/blob/main/README.graphstore.md#destroy-previous-instances .
 
 ## Setup instance
+This sets up a server instance
 
 ### config-instance.yaml
 
@@ -70,13 +109,14 @@ Commands to deploy instance.
 Replace `YYYY-MM-DD` appropriately.
 
 #### For production
+This creates Terraform instructions with name "graphstore-production-YYYY-MM-DD".  Note, the label for the instructions and the instance are the same   
 
 ```
 go-deploy --workspace production-YYYY-MM-DD --working-directory aws -verbose --conf config-instance.yaml
 ```
 
 #### For "internal"
-
+This creates Terraform instructions with name "graphstore-internal-YYYY-MM-DD".  Note, the label for the instructions and the instance are the same
 ```
 go-deploy --workspace internal-YYYY-MM-DD --working-directory aws -verbose --conf config-instance.yaml
 ```
@@ -91,6 +131,7 @@ For example:
 
 ```
 ssh -i /home/sjcarbon/local/share/secrets/go/ssh-keys/go-ssh ubuntu@graphstore-production-2024-04-24.geneontology.org
+logout
 ```
 
 Workspace placement:
@@ -155,9 +196,12 @@ emacs ./vars.yaml
 - `S3_PREFIX: REPLACE_ME` should be "production-2024-04-24".
 - `S3_CRED_FILE: REPLACE_ME` should be "/tmp/go-aws-credentials".
 - `S3_BUCKET: REPLACE_ME` should be "go-service-logs-graphstore-production".
-- `remote_journal_gzip: http://current.geneontology.org/products/blazegraph/blazegraph-internal.jnl.gz` should be "http://current.geneontology.org/products/blazegraph/blazegraph-production.jnl.gz"
+
 - `GRAPHSTORE_SERVER_NAME: graphstore.example.com` should be "rdf.geneontology.org".
 - `GRAPHSTORE_SERVER_ALIAS: REPLACE_ME` should be "graphstore-production-2024-04-24.geneontology.org".
+
+- `remote_journal_gzip: http://current.geneontology.org/products/blazegraph/blazegraph-internal.jnl.gz` should be "http://current.geneontology.org/products/blazegraph/blazegraph-production.jnl.gz"
+
 
 ### Internal variables
 
