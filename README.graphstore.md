@@ -222,7 +222,9 @@ go-deploy --working-directory aws -list-workspaces -verbose
 
 ## Destroy previous instances
 
-Let's assume that we're "hunting" the setup associated with "production-YYYY-MM-DD".
+Let's assume that we're "hunting" the setup associated with
+"production-YYYY-MM-DD". The process outlined here is to destroy the
+contents of the workspace, then to destroy the workspace itself.
 
 ```
 terraform -chdir=aws workspace select production-YYYY-MM-DD

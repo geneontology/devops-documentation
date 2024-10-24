@@ -2,13 +2,19 @@
 
 General and specific documentation for geneontology DevOps.
 
-## README.setup
+## README.setup.md
 
 Start here!
 
-Documentation regarding the setup of the GO DevOps environment.
+Documentation regarding the setup of the GO DevOps environment. The
+initial "Environment" and "Credentials" section is referenced a lot. A
+nice overview.
 
-## README.graphstore
+## README.graphstore.md
+
+Documentation for deploying both the "production" and "internal" versions of the graphstore.
+
+## README.api.md
 
 Documentation for deploying both the "production" and "internal" versions of the graphstore.
 
