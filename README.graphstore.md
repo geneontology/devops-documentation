@@ -6,7 +6,7 @@ First, setup the devops docker image:
 
 ```
 docker rm go-graphstore || true
-docker run --name go-graphstore -it geneontology/go-devops-base:tools-jammy-0.4.2  /bin/bash
+docker run --name go-graphstore -it geneontology/go-devops-base:tools-jammy-0.4.4 /bin/bash
 cd /tmp
 ```
 
