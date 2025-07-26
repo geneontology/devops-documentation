@@ -12,6 +12,18 @@ cd /tmp
 
 Next, do the https://github.com/geneontology/devops-documentation/blob/main/README.setup.md#credentials section of the general setup document.
 
+### If you have already done this README...
+
+...you can run the following comands to rejoin the docker image.
+
+```bash
+docker container start go-graphstore
+docker exec -it go-graphstore bash -c "/bin/bash"
+cd /tmp/go-graphstore/
+```
+
+Now you can skip to setting up the instance.
+
 ## Setup AWS backend
 
 Get local repo.
