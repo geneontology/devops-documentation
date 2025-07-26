@@ -19,7 +19,7 @@ Next, do the https://github.com/geneontology/devops-documentation/blob/main/READ
 ```bash
 docker container start go-graphstore
 docker exec -it go-graphstore bash -c "/bin/bash"
-cd /tmp/go-graphstore/
+cd /tmp/go-graphstore/provision
 ```
 
 Now you can skip to setting up the instance.
