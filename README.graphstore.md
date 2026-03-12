@@ -4,6 +4,25 @@ Deployment documentation for the GO graphstore (Blazegraph SPARQL endpoint).
 
 Source repository: https://github.com/geneontology/go-graphstore
 
+## Before you begin
+
+Gather the following before starting. These are user- and environment-specific and cannot be derived from the repo:
+
+| Item | Description | Example |
+|------|-------------|---------|
+| AWS credentials file | Path on your host machine | `/home/you/secrets/go-aws-credentials` |
+| SSH private key | Path on your host machine | `/home/you/secrets/go-ssh` |
+| SSH public key | Path on your host machine | `/home/you/secrets/go-ssh.pub` |
+| Deployment track | `production` or `internal` | `production` |
+| Date stamp | Today's date in YYYY-MM-DD format | `2026-03-12` |
+
+For credential details (format, where to get them), see the [credentials](https://github.com/geneontology/devops-documentation/blob/main/README.setup.md#credentials) section of the general setup document.
+
+Once inside the devops container, these files must be at:
+- `/tmp/go-aws-credentials`
+- `/tmp/go-ssh`
+- `/tmp/go-ssh.pub`
+
 ## Setup environment
 
 Start the devops docker image:
@@ -35,6 +54,13 @@ Clone the repo and navigate to the provision directory:
 ```
 git clone https://github.com/geneontology/go-graphstore.git
 cd go-graphstore/provision
+```
+
+Set the required environment variables (these must persist for all subsequent commands):
+
+```
+export AWS_SHARED_CREDENTIALS_FILE=/tmp/go-aws-credentials
+export AWS_REGION=us-east-1
 ```
 
 ### Terraform backend
