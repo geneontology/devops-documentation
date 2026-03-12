@@ -28,18 +28,6 @@ cd /tmp/go-graphstore/provision
 
 Now you can skip to the step you need.
 
-### If you have already done this README...
-
-...you can run the following comands to rejoin the docker image.
-
-```bash
-docker container start go-graphstore
-docker exec -it go-graphstore bash -c "/bin/bash"
-cd /tmp/go-graphstore/provision
-```
-
-Now you can skip to setting up the instance.
-
 ## Setup AWS backend
 
 Clone the repo and navigate to the provision directory:
@@ -60,9 +48,9 @@ emacs ./aws/backend.tf
 
 Set the following value:
 
-| Variable | Value |
-|----------|-------|
-| `bucket` | `go-workspace-graphstore` |
+| Placeholder | Value |
+|-------------|-------|
+| `REPLACE_ME_S3_STATE_BUCKET` | `go-workspace-graphstore` |
 
 Initialize the backend:
 
@@ -87,19 +75,19 @@ emacs config-instance.yaml
 
 #### For production
 
-| Variable | Value |
-|----------|-------|
-| `Name` | `graphstore-production-YYYY-MM-DD` |
-| `dns_record_name` | `graphstore-production-YYYY-MM-DD.geneontology.org` |
-| `dns_zone_id` | `Z04640331A23NHVPCC784` (geneontology.org) |
+| Placeholder | Value |
+|-------------|-------|
+| `REPLACE_ME_INSTANCE_NAME` | `graphstore-production-YYYY-MM-DD` |
+| `REPLACE_ME_DNS_RECORD_NAME` | `graphstore-production-YYYY-MM-DD.geneontology.org` |
+| `REPLACE_ME_DNS_ZONE_ID` | `Z04640331A23NHVPCC784` (geneontology.org) |
 
 #### For "internal"
 
-| Variable | Value |
-|----------|-------|
-| `Name` | `graphstore-internal-YYYY-MM-DD` |
-| `dns_record_name` | `graphstore-internal-YYYY-MM-DD.berkeleybop.io` |
-| `dns_zone_id` | `ZNM42D2G0HNUI` (berkeleybop.io) |
+| Placeholder | Value |
+|-------------|-------|
+| `REPLACE_ME_INSTANCE_NAME` | `graphstore-internal-YYYY-MM-DD` |
+| `REPLACE_ME_DNS_RECORD_NAME` | `graphstore-internal-YYYY-MM-DD.berkeleybop.io` |
+| `REPLACE_ME_DNS_ZONE_ID` | `ZNM42D2G0HNUI` (berkeleybop.io) |
 
 ### Deploy instance
 
@@ -132,40 +120,15 @@ emacs ./config-stack.yaml
 
 #### config-stack.yaml
 
-| Variable | Value |
-|----------|-------|
-| `S3_PREFIX` | `production-YYYY-MM-DD` |
-| `S3_BUCKET` | `go-service-logs-graphstore-production` |
-| `remote_gzip_journal` | `http://current.geneontology.org/products/blazegraph/blazegraph-production.jnl.gz` |
-| `GRAPHSTORE_SERVER_NAME` | `rdf.geneontology.org` |
-| `GRAPHSTORE_SERVER_ALIAS` | `graphstore-production-YYYY-MM-DD.geneontology.org` |
+| Placeholder | Value |
+|-------------|-------|
+| `REPLACE_ME_S3_PREFIX` | `production-YYYY-MM-DD` |
+| `REPLACE_ME_S3_BUCKET` | `go-service-logs-graphstore-production` |
+| `REPLACE_ME_JOURNAL_URL` | `http://current.geneontology.org/products/blazegraph/blazegraph-production.jnl.gz` |
+| `REPLACE_ME_SERVER_NAME` | `rdf.geneontology.org` |
+| `REPLACE_ME_SERVER_ALIAS` | `graphstore-production-YYYY-MM-DD.geneontology.org` |
 
-#### ssl-vars.yaml
-
-```
-emacs ./ssl-vars.yaml
-```
-
-| Variable | Value |
-|----------|-------|
-| `USE_SSL` | `1` |
-| `S3_SSL_CERTS_LOCATION` | `s3://go-service-lockbox/geneontology.org.tar.gz` |
-
-#### vars.yaml
-
-```
-emacs ./vars.yaml
-```
-
-| Variable | Value |
-|----------|-------|
-| `S3_PATH` | `production-YYYY-MM-DD` |
-| `S3_PREFIX` | `production-YYYY-MM-DD` |
-| `S3_CRED_FILE` | `/tmp/go-aws-credentials` |
-| `S3_BUCKET` | `go-service-logs-graphstore-production` |
-| `remote_journal_gzip` | `http://current.geneontology.org/products/blazegraph/blazegraph-production.jnl.gz` |
-| `GRAPHSTORE_SERVER_NAME` | `rdf.geneontology.org` |
-| `GRAPHSTORE_SERVER_ALIAS` | `graphstore-production-YYYY-MM-DD.geneontology.org` |
+Note: `config-stack.yaml` already includes SSL and S3 credential settings. The values in it override `vars.yaml` and `ssl-vars.yaml`, so you do not need to edit those files separately.
 
 ### Internal variables
 
@@ -176,46 +139,20 @@ cp ./production/config-stack.yaml.sample ./config-stack.yaml
 emacs ./config-stack.yaml
 ```
 
-| Variable | Value |
-|----------|-------|
-| `S3_PREFIX` | `internal-YYYY-MM-DD` |
-| `S3_BUCKET` | `go-service-logs-graphstore-internal` |
-| `remote_gzip_journal` | `http://current.geneontology.org/products/blazegraph/blazegraph-internal.jnl.gz` |
-| `GRAPHSTORE_SERVER_NAME` | `rdf-internal.berkeleybop.io` |
-| `GRAPHSTORE_SERVER_ALIAS` | `graphstore-internal-YYYY-MM-DD.berkeleybop.io` |
-
-#### ssl-vars.yaml
-
-```
-emacs ./ssl-vars.yaml
-```
-
-| Variable | Value |
-|----------|-------|
-| `USE_SSL` | `1` |
-| `S3_SSL_CERTS_LOCATION` | `s3://go-service-lockbox/berkeleybop.io.tar.gz` |
-
-#### vars.yaml
-
-```
-emacs ./vars.yaml
-```
-
-| Variable | Value |
-|----------|-------|
-| `S3_PATH` | `internal-YYYY-MM-DD` |
-| `S3_PREFIX` | `internal-YYYY-MM-DD` |
-| `S3_CRED_FILE` | `/tmp/go-aws-credentials` |
-| `S3_BUCKET` | `go-service-logs-graphstore-internal` |
-| `remote_journal_gzip` | `http://current.geneontology.org/products/blazegraph/blazegraph-internal.jnl.gz` (no change from default) |
-| `GRAPHSTORE_SERVER_NAME` | `rdf-internal.berkeleybop.io` |
+| Placeholder | Value |
+|-------------|-------|
+| `REPLACE_ME_S3_PREFIX` | `internal-YYYY-MM-DD` |
+| `REPLACE_ME_S3_BUCKET` | `go-service-logs-graphstore-internal` |
+| `REPLACE_ME_JOURNAL_URL` | `http://current.geneontology.org/products/blazegraph/blazegraph-internal.jnl.gz` |
+| `REPLACE_ME_SERVER_NAME` | `rdf-internal.berkeleybop.io` |
+| `REPLACE_ME_SERVER_ALIAS` | `graphstore-internal-YYYY-MM-DD.berkeleybop.io` |
 
 ### Verify configuration
 
 Before deploying, scan the edited config files for any remaining placeholder values to ensure all variables have been properly set:
 
 ```
-grep -rn 'REPLACE_ME\|YYYY-MM-DD' config-stack.yaml config-instance.yaml ssl-vars.yaml vars.yaml aws/backend.tf
+grep -rn 'REPLACE_ME_' config-stack.yaml config-instance.yaml ssl-vars.yaml vars.yaml aws/backend.tf
 ```
 
 If any matches are found, go back and fill them in before proceeding.
