@@ -5,8 +5,8 @@
 First, setup the devops docker image:
 
 ```
-docker rm go-dev || true
-docker run --name go-dev -it geneontology/go-devops-base:tools-jammy-0.4.4  /bin/bash
+docker rm go-fastapi || true
+docker run --name go-fastapi -it geneontology/go-devops-base:tools-jammy-0.4.4  /bin/bash
 cd /tmp
 ```
 
