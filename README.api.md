@@ -57,9 +57,9 @@ cp ./production/config-instance.yaml.sample config-instance.yaml
 emacs config-instance.yaml
 ```
 
-- `Name: REPLACE_ME` should be "go-api-production-YYYY-MM-DD".
-- `dns_record_name: REPLACE_ME` should be "go-api-production-YYYY-MM-DD.geneontology.org"
-- `dns_zone_id: REPLACE_ME` should be "Z04640331A23NHVPCC784" (for geneontology.org).
+- `Name: REPLACE_ME_INSTANCE_NAME` should be "go-api-production-YYYY-MM-DD".
+- `dns_record_name: REPLACE_ME_DNS_RECORD` should be "go-api-production-YYYY-MM-DD.geneontology.org"
+- `dns_zone_id: REPLACE_ME_DNS_ZONE_ID` should be "Z04640331A23NHVPCC784" (for geneontology.org).
 
 ### Deploy
 
@@ -127,9 +127,9 @@ emacs ./config-stack.yaml
 ```
 
 - `S3_BUCKET: REPLACE_ME_APACHE_LOG_BUCKET` should be "go-service-logs-api"
-- `S3_SSL_CERTS_LOCATION: s3://REPLACE_ME/geneontology.org.tar.gz` should be "s3://go-service-lockbox/geneontology.org.tar.gz"
-* `fastapi_host_alias: REPLACE_ME` should be "go-api-production-YYYY-MM-DD.geneontology.org"
-* `fastapi_tag: 0.2.0`: should be the Dockerhub _tagged_ version of the API that you wish to use--this how we deploy within the image; this is conincidentally the GitHub version of the API _sans the "v"; see at https://github.com/geneontology/go-fastapi/releases .
+- `S3_SSL_CERTS_LOCATION: REPLACE_ME_SSL_CERTS_LOCATION` should be "s3://go-service-lockbox/geneontology.org.tar.gz"
+- `fastapi_host_alias: REPLACE_ME_HOST_ALIAS` should be "go-api-production-YYYY-MM-DD.geneontology.org"
+- `fastapi_tag: REPLACE_ME_FASTAPI_TAG` should be the Dockerhub tagged version of the API (GitHub release version sans the leading "v"); see https://github.com/geneontology/go-fastapi/releases
 
 ### Deploy
 
