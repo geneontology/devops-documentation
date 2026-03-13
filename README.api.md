@@ -118,7 +118,7 @@ Replace `YYYY-MM-DD` below appropriately, as outlined above.
 To test:
 
 ```
-go-deploy --workspace go-api-production-YYYY-MM-DD --working-directory aws -verbose --dry-run --conf config-instance.yaml
+go-deploy --workspace go-api-production-YYYY-MM-DD --working-directory aws -verbose -dry-run --conf config-instance.yaml
 ```
 
 Deploy:
