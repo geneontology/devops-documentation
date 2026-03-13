@@ -46,6 +46,18 @@ cd /tmp/go-fastapi/provision
 
 Now you can skip to the step you need.
 
+## Releasing (before deploying new code)
+
+A GitHub release must be created before deploying new code. The release tag triggers CI to build and push a Docker image to DockerHub.
+
+```
+gh release create vX.Y.Z --target main --generate-notes --repo geneontology/go-fastapi
+```
+
+This triggers the Docker build workflow, producing `geneontology/go-fastapi:X.Y.Z` on DockerHub. Use `X.Y.Z` (no leading "v") as the `REPLACE_ME_FASTAPI_TAG` value when deploying.
+
+See previous releases at: https://github.com/geneontology/go-fastapi/releases
+
 ## Setup AWS backend
 
 Clone the repo and navigate to the provision directory:
