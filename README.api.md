@@ -186,6 +186,35 @@ Verify the service is responding (replace with your DNS name):
 curl -s https://go-api-production-YYYY-MM-DD.geneontology.org/docs | head -20
 ```
 
+### Testing on the instance
+
+SSH into the instance from inside the devops docker image:
+
+```
+ssh -i /tmp/go-ssh ubuntu@go-api-production-YYYY-MM-DD.geneontology.org
+```
+
+Check services are running:
+
+```
+docker-compose -f /home/ubuntu/stage_dir/docker-compose.yaml ps
+```
+
+Check container health (the container is named `fastapi`, the Apache proxy is `apache_fastapi`):
+
+```
+docker inspect --format "{{json .State.Health }}" fastapi
+```
+
+Run the test suite inside the running container:
+
+```
+docker exec -it fastapi bash
+cd /code
+poetry run pytest -v tests/unit/*.py
+poetry run pytest tests/integration/step_defs/*.py
+```
+
 ## Debugging
 
 ### SSH access
@@ -198,7 +227,7 @@ ssh -i /tmp/go-ssh ubuntu@go-api-production-YYYY-MM-DD.geneontology.org
 
 ### Docker services on the instance
 
-All commands assume you are SSH'd into the instance. The stage directory is `/home/ubuntu/stage_dir`.
+All commands assume you are SSH'd into the instance. The stage directory is `/home/ubuntu/stage_dir`. The container names are `fastapi` and `apache_fastapi`.
 
 ```
 docker-compose -f /home/ubuntu/stage_dir/docker-compose.yaml ps
