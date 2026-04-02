@@ -268,6 +268,16 @@ List workspaces:
 go-deploy --working-directory aws -list-workspaces -verbose
 ```
 
+### Container DNS issues
+
+If the devops container has been running for a long time, DNS resolution inside it may stop working (commands hang or fail with `i/o timeout` errors when contacting AWS). Restart the container to fix this:
+
+```
+docker restart go-graphstore
+```
+
+Your credentials and cloned repo in `/tmp` will persist across the restart. You will need to re-export environment variables (`AWS_SHARED_CREDENTIALS_FILE`, `AWS_REGION`, `ANSIBLE_HOST_KEY_CHECKING`).
+
 ### Lower-level terraform commands
 
 For deeper debugging, you can use Terraform directly. These commands operate on the same state as `go-deploy` but provide more detail:
@@ -293,6 +303,8 @@ cat production-YYYY-MM-DD-inventory.cfg
 ```
 
 ## Destroy previous instances
+
+**Important:** Always keep one previous production instance running as a hot backup. When deploying a new instance, only destroy instances older than the immediately previous one. For example, if the current workspaces are `production-2026-01-30`, `production-2026-03-11`, and `production-2026-04-01` (new), destroy `production-2026-01-30` but keep `production-2026-03-11` as the backup.
 
 To destroy the setup associated with workspace "production-YYYY-MM-DD", use `go-deploy`:
 
