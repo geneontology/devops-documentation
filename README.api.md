@@ -190,7 +190,9 @@ If you're satisfied (have tested) the instance at https://go-api-production-YYYY
 go-deploy --workspace go-api-production-YYYY-MM-DD --working-directory aws -verbose -show
 ```
 
-Once settling is completed, proceed to remove the previous instance(s) below.
+Once settling is completed, proceed to clean up old instances below.
+
+**Hot backup policy**: Always keep the previous production instance running as a hot backup. After verifying the new instance and cutting over Cloudflare, you should have exactly two instances: the new production and the previous one as backup. Tear down anything older.
 
 ## Test
 
@@ -301,7 +303,21 @@ cat go-api-production-YYYY-MM-DD-inventory.cfg
 
 ## Destroy previous instances
 
-To destroy the setup associated with "go-api-production-YYYY-MM-DD":
+Before destroying, list all workspaces and confirm which instance is current production (via Cloudflare dashboard) and which is the hot backup:
+
+```
+go-deploy --working-directory aws -list-workspaces -verbose
+```
+
+Keep the current production instance and one hot backup. Destroy everything older.
+
+Using go-deploy (preferred):
+
+```
+go-deploy --workspace go-api-production-YYYY-MM-DD --working-directory aws -verbose -destroy
+```
+
+Or using Terraform directly:
 
 ```
 terraform -chdir=aws workspace select go-api-production-YYYY-MM-DD
