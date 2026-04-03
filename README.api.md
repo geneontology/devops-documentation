@@ -50,11 +50,31 @@ Now you can skip to the step you need.
 
 A GitHub release must be created before deploying new code. The release tag triggers CI to build and push a Docker image to DockerHub.
 
+Standard release from `main`:
+
 ```
 gh release create vX.Y.Z --target main --generate-notes --repo geneontology/go-fastapi
 ```
 
-This triggers the Docker build workflow, producing `geneontology/go-fastapi:X.Y.Z` on DockerHub. Use `X.Y.Z` (no leading "v") as the `REPLACE_ME_FASTAPI_TAG` value when deploying.
+Backport/patch release from a release branch:
+
+```
+gh release create vX.Y.Z-a --target release/vX.Y.Z --generate-notes --repo geneontology/go-fastapi
+```
+
+**The `--target` flag controls which commit is tagged.** Always verify it points to the correct branch. Using `--target main` for a backport will tag the wrong code and produce a Docker image from the wrong source.
+
+### Version tag constraints
+
+The Docker CI workflow uses `docker/metadata-action` with `type=semver` patterns. Tags **must be valid semver**:
+
+- 3-component tags work: `v0.4.0` → image tag `0.4.0`
+- Pre-release tags work: `v0.3.9-a` → image tag `0.3.9-a`
+- 4-component tags do **not** work: `v0.3.9.1` → the metadata action produces no tags, and the build fails with "tag is needed when pushing to registry"
+
+For backport/patch releases, use the semver pre-release format: `vX.Y.Z-a`, `vX.Y.Z-b`, etc.
+
+This triggers the Docker build workflow, producing `geneontology/go-fastapi:X.Y.Z` (or `X.Y.Z-a` for pre-releases) on DockerHub. Use the tag (no leading "v") as the `REPLACE_ME_FASTAPI_TAG` value when deploying.
 
 See previous releases at: https://github.com/geneontology/go-fastapi/releases
 
